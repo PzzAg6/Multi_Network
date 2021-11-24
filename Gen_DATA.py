@@ -232,6 +232,7 @@ def Weight_Dist_Path(Combine_Ntw, N_LAYERS, N_NODES):
 			wei_dis_dict[(v, u)]['Wei'] = wei_dis_dict[(u, v)]['Wei']
 			wei_dis_dict[(v, u)]['Path'] = wei_dis_dict[(u, v)]['Path']
 
+	end = time.process_time()
 	return wei_dis_dict	
 
 
@@ -306,10 +307,19 @@ if __name__ == '__main__':
 	for Given_Val, Layer_Wei in Combine_Ntw_Given_Dict.items():
 		print("The given value now saving is :{}..".format(Given_Val))
 		Combine_NT = Combine_NetW(MULTI_NETWORK, N_LAYERS, N_NODES, Layer_Wei)
-		Wei_Dis_Dict = Weight_Dist_Path(Combine_NT, N_LAYERS, N_NODES)
+		# Wei_Dis_Dict = Weight_Dist_Path(Combine_NT, N_LAYERS, N_NODES)
+
+		start_wei = time.process_time()
 		SP_Dic = Weight_Dist_Path(Combine_NT, N_LAYERS, N_NODES)
+		end_wei = time.process_time()
+		print("Time of calculation weight and shortest_path is: {}".format(end_wei - start_wei))
+
+		start_save = time.process_time()
 		Document_Save(ROOT_NAME, DOCUMENT_NAME + GIVEN_NAME + Given_Val, Layer_Wei, Combine_NT, SP_Dic)
+		end_save = time.process_time()
+		print("Time of domument saving is :{}".format(end_save - start_save))
 		print("Done...")
+
 
 
 	print("Now Saving the multi-network that the weight between respective network is random...")
