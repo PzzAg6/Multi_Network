@@ -23,7 +23,9 @@ from Detail import Detail_csv
 
 ROOT_NAME = os.getcwd()#不包含/
 
-NETWORK_NAME = ROOT_NAME.split('/')[-1]
+NETWORK_NAME = os.path.split(ROOT_NAME)[1]#SMALL_50_Given_0.6
+
+# NETWORK_NAME = ROOT_NAME.split('/')[-1]
 
 BETA = 0.5
 
@@ -64,6 +66,7 @@ for i in range(N_LAYERS):
 	MULTI_NETWORK.append(NETWORK)
 
 for root, dirs, files in os.walk(os.getcwd()):
+	#root:/Users/pangyusheng/Desktop/论文/NETWORKS/new mission/SIMPLE_50/SMALL_50_Given_0.3
 	if '__pycache__' in dirs:
 		dirs.remove('__pycache__')
 	if len(dirs) == 0:
@@ -82,7 +85,8 @@ for root, dirs, files in os.walk(os.getcwd()):
 				pkl_file.close()
 		Max_Node, Max_Layer = Node_Sel_Betw(MULTI_NETWORK, N_LAYERS, N_NODES, SP_Info, RADIUS)
 		NUM_INFLUENCE, NUM_TIME, TIME_LAYER_LIST = MULTI_NETWORK_SPREAD_SN(MULTI_NETWORK, N_LAYERS, Max_Node, Max_Layer, Wei_Btw_Layer, BETA)
-		Detail_csv(TIME_LAYER_LIST, N_NODES * N_LAYERS, NUM_INFLUENCE, NUM_TIME, root + '/' + root.split('/')[-1] + time.strftime("_%Y_%m_%d_%H_%M_%S", time.localtime()))
+		DOC_Pre = os.path.split(root)[1]#获取文件名开头
+		Detail_csv(TIME_LAYER_LIST, N_NODES * N_LAYERS, NUM_INFLUENCE, NUM_TIME, BETA,os.path.join(root, DOC_Pre + time.strftime("_%Y_%m_%d_%H_%M_%S", time.localtime())))
 		print('Next...')
 
 
