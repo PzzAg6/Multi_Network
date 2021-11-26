@@ -19,6 +19,8 @@ from class_network_1 import inf_network
 from Node_Layer_Sel import Node_Sel_Betw
 from MULTI_SPREAD import MULTI_NETWORK_SPREAD_SN
 from Detail import Detail_csv
+from Node_Layer_Sel import Betw_Layer#选层
+from Node_Layer_Sel import Gravity_Node#选点
 
 
 ROOT_NAME = os.getcwd()#不包含/
@@ -78,7 +80,9 @@ SP_pkl_file = open(ROOT_NAME + '/' + DOC_NAME + SP_NAME, 'rb')
 SP_Info = pickle.load(SP_pkl_file)
 SP_pkl_file.close()
 
-Max_Node, Max_Layer = Node_Sel_Betw(MULTI_NETWORK, N_LAYERS, N_NODES, SP_Info, RADIUS)
+# Max_Node, Max_Layer = Node_Sel_Betw(MULTI_NETWORK, N_LAYERS, N_NODES, SP_Info, RADIUS)
+Max_Layer = Betw_Layer(MULTI_NETWORK, N_LAYERS, SP_Info)
+Max_Node = Gravity_Node(MULTI_NETWORK, SP_Info, Max_Layer, N_NODES, RADIUS)#注意带入Max_Layer
 
 for i in range(REPEAT_TIME):
 	print("Now excuting {} iteration".format(i + 1))
