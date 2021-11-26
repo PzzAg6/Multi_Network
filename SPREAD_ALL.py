@@ -19,6 +19,8 @@ from Document_Save import Document_Save
 from Node_Layer_Sel import Node_Sel_Betw
 from MULTI_SPREAD import MULTI_NETWORK_SPREAD_SN
 from Detail import Detail_csv
+from Node_Layer_Sel import Betw_Layer#选层
+from Node_Layer_Sel import Gravity_Node#选点
 
 
 ROOT_NAME = os.getcwd()#不包含/
@@ -83,7 +85,10 @@ for root, dirs, files in os.walk(os.getcwd()):
 				pkl_file = open(os.path.join(root, name), 'rb')
 				SP_Info = pickle.load(pkl_file)
 				pkl_file.close()
-		Max_Node, Max_Layer = Node_Sel_Betw(MULTI_NETWORK, N_LAYERS, N_NODES, SP_Info, RADIUS)
+		# Max_Node, Max_Layer = Node_Sel_Betw(MULTI_NETWORK, N_LAYERS, N_NODES, SP_Info, RADIUS)
+		Max_Layer = Betw_Layer(MULTI_NETWORK, N_LAYERS, SP_Info)
+		Max_Node = Gravity_Node(MULTI_NETWORK, SP_Info, Max_Layer, N_NODES, RADIUS)#注意带入Max_Layer
+
 		NUM_INFLUENCE, NUM_TIME, TIME_LAYER_LIST = MULTI_NETWORK_SPREAD_SN(MULTI_NETWORK, N_LAYERS, Max_Node, Max_Layer, Wei_Btw_Layer, BETA)
 		DOC_Pre = os.path.split(root)[1]#获取文件名开头
 		Detail_csv(TIME_LAYER_LIST, N_NODES * N_LAYERS, NUM_INFLUENCE, NUM_TIME, BETA,os.path.join(root, DOC_Pre + time.strftime("_%Y_%m_%d_%H_%M_%S", time.localtime())))
