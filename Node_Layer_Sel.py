@@ -413,7 +413,7 @@ def R_Layer(N_LAYERS):
 	CHOSEN_LAYER = random.randint(0, N_LAYERS - 1)
 	return CHOSEN_LAYER
 
-def Nei_Layer(MULTI_NETWORK, N_LAYERS, N_NODES, wei_dis_dict):
+def Nei_Layer(MULTI_NETWORK, N_LAYERS, N_NODES, wei_dis_dict, RADIUS):
 
 	#另一种计算layer betweeness的方法，先做一个表
 	Layer_betweeness_dict = {u: [0 for i in range(N_NODES)] for u in range(N_LAYERS)}
@@ -490,10 +490,10 @@ def Degr_Node(MULTI_NETWORK, N_LAYERS, N_NODES):
 		else:
 			continue
 
-	return (MAX_NODE_INDEX, Max_Layer)	
+	return MAX_NODE_INDEX
 
 #引力模型
-def Gravity_Node(MULTI_NETWORK, wei_dis_dict, Pick_Layer, N_NODES, RADIUS):
+def Gravity_Node(MULTI_NETWORK, wei_dis_dict, Pick_Layer, N_LAYERS, N_NODES, RADIUS):
 
 	Max_Node_L_Star = [0 for i in range(N_NODES)]
 	for node in range(N_NODES):

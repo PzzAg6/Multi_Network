@@ -82,7 +82,7 @@ SP_pkl_file.close()
 
 # Max_Node, Max_Layer = Node_Sel_Betw(MULTI_NETWORK, N_LAYERS, N_NODES, SP_Info, RADIUS)
 Max_Layer = Betw_Layer(MULTI_NETWORK, N_NODES, N_LAYERS, SP_Info)
-Max_Node = Gravity_Node(MULTI_NETWORK, SP_Info, Max_Layer, N_NODES, RADIUS)#注意带入Max_Layer
+Max_Node = Gravity_Node(MULTI_NETWORK, SP_Info, Max_Layer, N_LAYERS, N_NODES, RADIUS)#注意带入Max_Layer
 
 for i in range(REPEAT_TIME):
 	print("Now excuting {} iteration".format(i + 1))
