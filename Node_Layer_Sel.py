@@ -384,7 +384,7 @@ def Neib_LAYER_Neigh_NODE(MULTI_NETWORK, N_LAYERS, N_NODES, wei_dis_dict, RADIUS
 
 
 #Pick Layer
-def Betw_Layer(MULTI_NETWORK, N_LAYERS, wei_dis_dict):
+def Betw_Layer(MULTI_NETWORK, N_NODES, N_LAYERS, wei_dis_dict):
 
 	All_Node_List = [0 for i in range(N_LAYERS * N_NODES)]#建立一个list存放介数中心性
 
