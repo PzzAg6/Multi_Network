@@ -1,4 +1,7 @@
 # coding=utf-8
+#把层间成本由w改为1 - w
+
+
 #OUPUT:
 # - 每一层网络（计算好权重）
 # - 层间的权重
@@ -209,7 +212,7 @@ def Combine_NetW(MULTI_NETWORK, N_LAYERS, N_NODES, Layer_Weight):
 	#层与层之间的权重补全
 	for layer in range(N_LAYERS):
 		for next_layer in range(layer +1, N_LAYERS):
-			e = [(node + layer * N_NODES, node + next_layer * N_NODES, {'weight': Layer_Weight[layer][next_layer]}) for node in range(N_NODES)]
+			e = [(node + layer * N_NODES, node + next_layer * N_NODES, {'weight': 1 - Layer_Weight[layer][next_layer]}) for node in range(N_NODES)]#改为1 - w
 			Fake_Mul_Ntw.add_edges_from(e)	
 
 	return Fake_Mul_Ntw
@@ -232,7 +235,6 @@ def Weight_Dist_Path(Combine_Ntw, N_LAYERS, N_NODES):
 			wei_dis_dict[(v, u)]['Wei'] = wei_dis_dict[(u, v)]['Wei']
 			wei_dis_dict[(v, u)]['Path'] = wei_dis_dict[(u, v)]['Path']
 
-	end = time.process_time()
 	return wei_dis_dict	
 
 
