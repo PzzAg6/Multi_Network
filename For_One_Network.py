@@ -29,7 +29,10 @@ FATHER_ROOT_NAME, DOC_NAME = os.path.split(ROOT_NAME)
 #FATHER_ROOT_NAME = '/Users/pangyusheng/Desktop/论文/NETWORKS/new mission/SIMPLE_50'
 #DOC_NAME = 'SMALL_50_Given_0.6'
 
-NETWORK_NAME = ROOT_NAME.split('/')[-1]
+# NETWORK_NAME = ROOT_NAME.split('/')[-1]
+
+# NETWORK_NAME = os.path.split(ROOT_NAME)[1]#SMALL_50_Given_0.6
+
 
 BETA = 0.5
 
@@ -87,8 +90,8 @@ Max_Node = Gravity_Node(MULTI_NETWORK, SP_Info, Max_Layer, N_LAYERS, N_NODES, RA
 for i in range(REPEAT_TIME):
 	print("Now excuting {} iteration".format(i + 1))
 	NUM_INFLUENCE, NUM_TIME, TIME_LAYER_LIST = MULTI_NETWORK_SPREAD_SN(MULTI_NETWORK, N_LAYERS, Max_Node, Max_Layer, Wei_Btw_Layer, BETA)
-	Detail_csv(TIME_LAYER_LIST, N_NODES * N_LAYERS, NUM_INFLUENCE, NUM_TIME, BETA, root + '/' + root.split('/')[-1] + time.strftime("_%Y_%m_%d_%H_%M_%S", time.localtime()))
+	Detail_csv(TIME_LAYER_LIST, N_NODES * N_LAYERS, NUM_INFLUENCE, NUM_TIME, BETA, os.path.join(ROOT_NAME, DOC_NAME + time.strftime("_%Y_%m_%d_%H_%M_%S", time.localtime())))
 	print('Next...')
-
+	
 
 
