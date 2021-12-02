@@ -265,7 +265,7 @@ if __name__ == '__main__':
 
 
 
-	DOCUMENT_NAME = "SMALL_50" #根据网络结构自行定义，建议带上节点数，网络类型
+	DOCUMENT_NAME = "RAN_50" #根据网络结构自行定义，建议带上节点数，网络类型
 
 	N_LAYERS = 3
 
@@ -325,8 +325,10 @@ if __name__ == '__main__':
 
 
 	print("Now Saving the multi-network that the weight between respective network is random...")
-	Combine_Ntw_Random = Combine_NetW(MULTI_NETWORK, N_LAYERS, N_NODES, Layer_Weight_R(MULTI_NETWORK, N_LAYERS, False, 0))
-	Document_Save(ROOT_NAME, DOCUMENT_NAME + RANDOM_NAME, Layer_Wei, Combine_NT, SP_Dic)
+	Layer_Wei_R = Layer_Weight_R(MULTI_NETWORK, N_LAYERS, False, 0)
+	Combine_Ntw_Random = Combine_NetW(MULTI_NETWORK, N_LAYERS, N_NODES, Layer_Wei_R)
+	SP_Dic_R = Weight_Dist_Path(Combine_Ntw_Random, N_LAYERS, N_NODES)
+	Document_Save(ROOT_NAME, DOCUMENT_NAME + RANDOM_NAME, Layer_Wei_R, Combine_Ntw_Random, SP_Dic_R)
 	print("Done...")
 
 
