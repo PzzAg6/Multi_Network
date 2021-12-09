@@ -23,6 +23,6 @@
 
 之前保存层间权重是随机的网络出现了问题，保存的部分用的是Given的值，大无语了，重新修改了。
 
-#2021.12.9  
+# 2021.12.9  
 
 增加一个能够查看每一层betweeness和neighborhood的文件`Output_Betw_Neigh.py`，导出csv，方便看出规律。并在`Node_Layer_Sel.py`中加入对应的函数
