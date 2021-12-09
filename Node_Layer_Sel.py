@@ -20,6 +20,55 @@ import time
 import pickle
 import os
 
+
+def Output_Betw(MULTI_NETWORK, N_LAYERS, N_NODES, wei_dis_dict):
+	#输出每一层的betweeness的值
+	All_Node_List = [0 for i in range(N_LAYERS * N_NODES)]#建立一个list存放介数中心性
+
+		#对半遍历的话应该可以减少很多判断in的时间
+	for node in range(N_LAYERS * N_NODES):
+		for link, para in wei_dis_dict.items():
+			if link[0] == link[1]:
+				continue
+			else:
+				Path = para['Path'][1 : -1]
+				if node in Path:
+					All_Node_List[node] += 1
+				else:
+						continue
+
+	All_Node_Betweeness = [node/((N_LAYERS * N_NODES) * (N_LAYERS * N_NODES - 1)) for node in All_Node_List]
+	Layer_betweeness = [None for i in range(N_LAYERS)]
+	for layer in range(N_LAYERS):
+		Layer_betweeness[layer] = sum(All_Node_Betweeness[layer * N_NODES : (layer + 1) * N_NODES])
+
+	return Layer_betweeness
+
+def Output_Neigh(MULTI_NETWORK, N_LAYERS, N_NODES, RADIUS):
+	#输出每一层neighborhood的值
+	Layer_betweeness_dict = {u: [0 for i in range(N_NODES)] for u in range(N_LAYERS)}
+	# for layer in range(N_LAYERS):
+	# 	for node in range(N_NODES):
+
+	# 		Layer_betweeness_dict[layer][node] = len(nx.bfs_tree(MULTI_NETWORK[layer].network, source = node, depth_limit = RADIUS)) - 1#减去root
+
+	for Node in range(N_NODES):
+		for Layer in range(N_LAYERS):
+			for Next_Layer in range(N_LAYERS):
+				if Next_Layer == Layer:
+					Layer_betweeness_dict[Layer][Node] += len(nx.bfs_tree(MULTI_NETWORK[Next_Layer].network, source = Node, depth_limit = RADIUS)) - 1
+				else:
+					Layer_betweeness_dict[Layer][Node] += len(nx.bfs_tree(MULTI_NETWORK[Next_Layer].network, source = Node, depth_limit = RADIUS - 1)) - 1
+
+
+	Layer_betweeness = [0 for i in range(N_LAYERS)]
+	for layer in range(N_LAYERS):
+		Layer_betweeness[layer] = sum(Layer_betweeness_dict[layer])
+
+	return Layer_betweeness	
+
+
+
 def Node_Sel_Betw(MULTI_NETWORK, N_LAYERS, N_NODES, wei_dis_dict, RADIUS):
 
 
