@@ -495,12 +495,15 @@ def Nei_Layer(MULTI_NETWORK, N_LAYERS, N_NODES, wei_dis_dict, RADIUS):
 #Pick Node
 
 #随机
-def R_Node(N_NODES):
-	return random.randint(0, N_NODES - 1)
+def R_Node(N_NODES, Top = 1):
+	Random_List = [i for i in range(N_NODES)]
+	return random.sample(Random_List, Top)
+
+
 
 #邻居数
-def Neigh_Node(MULTI_NETWORK, N_LAYERS, N_NODES):
-
+def Neigh_Node(MULTI_NETWORK, N_LAYERS, N_NODES, Top = 1):
+	#选取排名的前Top个节点
 	NODE_NBRS = [set() for i in range(N_NODES)]
 	N_N = []
 	for NETWORK in MULTI_NETWORK:
@@ -508,42 +511,38 @@ def Neigh_Node(MULTI_NETWORK, N_LAYERS, N_NODES):
 			NODE_NBRS[node] = (NODE_NBRS[node] | set(nbrs))	
 	N_N = [len(NODE_NBRS[i]) for i in range(len(NODE_NBRS))]
 
+	NODE_DATA_LIST = [(i, N_N[i]) for i in range(N_NODES)]#建立一个节点编号和其数值对应的list
+	NODE_DATA_LIST.sort(key = lambda x: x[1], reverse = True)#根据N_N排序，由大到小，其实也没多大必要，只要Top，如果慢的话就改一下吧，数量不多的话O(n)即可
 
-	MAX_NODE_INDEX = 0
-	MAX_Val = 0
-	#找有最大邻居数的节点
-	for i in range(N_NODES):
-		if N_N[i] >= N_N[MAX_NODE_INDEX]:
-			MAX_NODE_INDEX = i
-			MAX_Val = N_N[i]
-		else:
-			continue
+	Rank_List = []
+	for pick in range(Top):
+		Rank_List.append(NODE_DATA_LIST[pick][0])#append编号
+
+	return Rank_List
 	
-	return MAX_NODE_INDEX
+
 
 #度
-def Degr_Node(MULTI_NETWORK, N_LAYERS, N_NODES):
-
+def Degr_Node(MULTI_NETWORK, N_LAYERS, N_NODES, Top = 1):
+	#选取排名的前Top个节点
 	EDGE_LIST = [0] * N_NODES
 	for NETWORK in MULTI_NETWORK:
 		for node, nbrs in NETWORK.network.adj.items():
 			EDGE_LIST[node] += len(list(nbrs))
 
-	MAX_NODE_INDEX = 0
-	MAX_Val = 0
-	#找有最大度的节点
-	for i in range(N_NODES):
-		if EDGE_LIST[i] >= EDGE_LIST[MAX_NODE_INDEX]:
-			MAX_NODE_INDEX = i
-			MAX_Val = EDGE_LIST[i]
-		else:
-			continue
 
-	return MAX_NODE_INDEX
+	NODE_DATA_LIST = [(i, EDGE_LIST[i]) for i in range(N_NODES)]#建立一个节点编号和其数值对应的list
+	NODE_DATA_LIST.sort(key = lambda x: x[1], reverse = True)#根据N_N排序，由大到小，其实也没多大必要，只要Top，如果慢的话就改一下吧，数量不多的话O(n)即可
+
+	Rank_List = []
+	for pick in range(Top):
+		Rank_List.append(NODE_DATA_LIST[pick][0])#append编号
+
+	return Rank_List
 
 #引力模型
-def Gravity_Node(MULTI_NETWORK, wei_dis_dict, Pick_Layer, N_LAYERS, N_NODES, RADIUS):
-
+def Gravity_Node(MULTI_NETWORK, wei_dis_dict, Pick_Layer, N_LAYERS, N_NODES, RADIUS, Top = 1):
+	#选取排名的前Top个节点
 	Max_Node_L_Star = [0 for i in range(N_NODES)]
 	for node in range(N_NODES):
 		K_L_Node = len(list(nx.all_neighbors(MULTI_NETWORK[Pick_Layer].network, node)))
@@ -558,5 +557,13 @@ def Gravity_Node(MULTI_NETWORK, wei_dis_dict, Pick_Layer, N_LAYERS, N_NODES, RAD
 
 	Max_Node = Max_Node_L_Star.index(max(Max_Node_L_Star))
 
-	return Max_Node
+	NODE_DATA_LIST = [(i, Max_Node_L_Star[i]) for i in range(N_NODES)]#建立一个节点编号和其数值对应的list
+	NODE_DATA_LIST.sort(key = lambda x: x[1], reverse = True)#根据N_N排序，由大到小，其实也没多大必要，只要Top，如果慢的话就改一下吧，数量不多的话O(n)即可
+
+	Rank_List = []
+	for pick in range(Top):
+		Rank_List.append(NODE_DATA_LIST[pick][0])#append编号
+
+	return Rank_List	
+
 
