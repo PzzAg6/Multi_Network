@@ -1,5 +1,7 @@
 #Single_select
 #将该文件放在需要运行的目录下方，可以输出指定的循环操作，生成结果
+#2021.12.14
+#可以多个节点同时传播，函数为MULTI_NETWORK_SPREAD_MN
 
 
 import time
@@ -18,6 +20,7 @@ sys.path.append("..")
 from class_network_1 import inf_network
 from Node_Layer_Sel import Node_Sel_Betw
 from MULTI_SPREAD import MULTI_NETWORK_SPREAD_SN
+#from MULTI_SPREAD import MULTI_NETWORK_SPREAD_MN
 from Detail import Detail_csv
 from Node_Layer_Sel import Betw_Layer#选层
 from Node_Layer_Sel import Gravity_Node#选点
@@ -87,7 +90,7 @@ Max_Node = Gravity_Node(MULTI_NETWORK, SP_Info, Max_Layer, N_LAYERS, N_NODES, RA
 for i in range(REPEAT_TIME):
 	print("Now excuting {} iteration".format(i + 1))
 	NUM_INFLUENCE, NUM_TIME, TIME_LAYER_LIST = MULTI_NETWORK_SPREAD_SN(MULTI_NETWORK, N_LAYERS, Max_Node, Max_Layer, Wei_Btw_Layer, BETA)
-	Detail_csv(TIME_LAYER_LIST, N_NODES * N_LAYERS, NUM_INFLUENCE, NUM_TIME, BETA, root + '/' + root.split('/')[-1] + time.strftime("_%Y_%m_%d_%H_%M_%S", time.localtime()))
+	Detail_csv(TIME_LAYER_LIST, N_NODES * N_LAYERS, NUM_INFLUENCE, NUM_TIME, BETA, os.path.join(ROOT_NAME, DOC_NAME + time.strftime("_%Y_%m_%d_%H_%M_%S", time.localtime())))
 	print('Next...')
 
 

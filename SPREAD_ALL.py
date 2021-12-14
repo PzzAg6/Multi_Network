@@ -18,6 +18,7 @@ from class_network_1 import inf_network
 from Document_Save import Document_Save
 from Node_Layer_Sel import Node_Sel_Betw
 from MULTI_SPREAD import MULTI_NETWORK_SPREAD_SN
+#from MULTI_SPREAD import MULTI_NETWORK_SPREAD_MN
 from Detail import Detail_csv
 from Node_Layer_Sel import Betw_Layer#选层
 from Node_Layer_Sel import Gravity_Node#选点
