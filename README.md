@@ -30,3 +30,4 @@
 # 2021.12.14
 
 修改`MULTI_SPREAD.py`，增加函数`MULTI_NETWORK_SPREAD_MN`可以多节点传播
+修改了`sel`里面的函数，可以根据参数，按照排名选取多个节点。
