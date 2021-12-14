@@ -26,3 +26,7 @@
 # 2021.12.9  
 
 增加一个能够查看每一层betweeness和neighborhood的文件`Output_Betw_Neigh.py`，导出csv，方便看出规律。并在`Node_Layer_Sel.py`中加入对应的函数
+
+# 2021.12.14
+
+修改`MULTI_SPREAD.py`，增加函数`MULTI_NETWORK_SPREAD_MN`可以多节点传播
