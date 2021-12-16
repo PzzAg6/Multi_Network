@@ -15,12 +15,13 @@ import time
 import pickle
 import os
 import sys
+import csv
 
 sys.path.append("..")
 from class_network_1 import inf_network
 from Node_Layer_Sel import Node_Sel_Betw
-from MULTI_SPREAD import MULTI_NETWORK_SPREAD_SN
-#from MULTI_SPREAD import MULTI_NETWORK_SPREAD_MN
+# from MULTI_SPREAD import MULTI_NETWORK_SPREAD_SN
+from MULTI_SPREAD import MULTI_NETWORK_SPREAD_MN
 from Detail import Detail_csv
 from Node_Layer_Sel import Betw_Layer#选层
 from Node_Layer_Sel import Gravity_Node#选点
@@ -87,11 +88,24 @@ SP_pkl_file.close()
 Max_Layer = Betw_Layer(MULTI_NETWORK, N_NODES, N_LAYERS, SP_Info)
 Max_Node = Gravity_Node(MULTI_NETWORK, SP_Info, Max_Layer, N_LAYERS, N_NODES, RADIUS)#注意带入Max_Layer
 
+Cur_Time = time.strftime("_%Y_%m_%d_%H_%M_%S", time.localtime())#提前固定时间，都在同一个文件内表示
+AVG_NUM = 0#平均传播数量
+PATH_DOC_NAME = os.path.join(ROOT_NAME, DOC_NAME + Cur_Time)
 for i in range(REPEAT_TIME):
 	print("Now excuting {} iteration".format(i + 1))
-	NUM_INFLUENCE, NUM_TIME, TIME_LAYER_LIST = MULTI_NETWORK_SPREAD_SN(MULTI_NETWORK, N_LAYERS, Max_Node, Max_Layer, Wei_Btw_Layer, BETA)
-	Detail_csv(TIME_LAYER_LIST, N_NODES * N_LAYERS, NUM_INFLUENCE, NUM_TIME, BETA, os.path.join(ROOT_NAME, DOC_NAME + time.strftime("_%Y_%m_%d_%H_%M_%S", time.localtime())) + '_{}'.format(i))
+	NUM_INFLUENCE, NUM_TIME, TIME_LAYER_LIST = MULTI_NETWORK_SPREAD_MN(MULTI_NETWORK, N_LAYERS, Max_Node, Max_Layer, Wei_Btw_Layer, BETA)
+	AVG_NUM += NUM_INFLUENCE
+	Detail_csv(TIME_LAYER_LIST, N_NODES * N_LAYERS, NUM_INFLUENCE, NUM_TIME, BETA, PATH_DOC_NAME)
 	print('Next...')
+
+AVG_NUM = AVG_NUM/REPEAT_TIME
+
+with open(PATH_DOC_NAME + '.csv', 'a', newline = '') as csvfile:
+	writer = csv.writer(csvfile)
+	writer.writerow(['AVERAGE TOTAL NUM:', AVG_NUM, ''])
+
+
+
 
 
 
